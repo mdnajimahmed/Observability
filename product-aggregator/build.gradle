@@ -22,23 +22,7 @@ dependencies {
 
     // OpenTelemetry Spring Boot starter for auto-instrumentation
     implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
-
-    // Optionally, OpenTelemetry API/SDK dependencies
-//    implementation 'io.opentelemetry:opentelemetry-api:1.23.0'
-//    implementation 'io.opentelemetry:opentelemetry-sdk:1.23.0'
-
-//    implementation('io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter') {
-//        exclude group: 'io.opentelemetry', module: 'opentelemetry-api'
-//        exclude group: 'io.opentelemetry', module: 'opentelemetry-sdk'
-//    }
-//
-//    implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
-//    implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
-//
-
     runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-logback-mdc-1.0', version: '2.14.0-alpha'
-
-
 }
 
 group = 'com.example'
@@ -59,3 +43,16 @@ repositories {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// Optionally, OpenTelemetry API/SDK dependencies
+//    implementation 'io.opentelemetry:opentelemetry-api:1.23.0'
+//    implementation 'io.opentelemetry:opentelemetry-sdk:1.23.0'
+
+//    implementation('io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter') {
+//        exclude group: 'io.opentelemetry', module: 'opentelemetry-api'
+//        exclude group: 'io.opentelemetry', module: 'opentelemetry-sdk'
+//    }
+//
+//    implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
+//    implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
+//
