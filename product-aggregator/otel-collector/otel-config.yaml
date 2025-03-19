@@ -11,21 +11,31 @@ extensions:
     endpoint: "0.0.0.0:13133"
     path: "/health/status"
 exporters:
-  debug:
-#  otlp:
-#    endpoint: "your-otel-backend:4317"  # Change this to your OTLP-compatible backend (e.g., Jaeger, Tempo, etc.)
-#    tls:
-#      insecure: true
+  debug: {}
+  # Export metrics to Prometheus
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "product-aggregator"
+
+  otlphttp:
+    endpoint: "http://192.168.100.10:3100/otlp"  # Loki OTLP Ingest API
+
+  # Export traces to Tempo
+  otlp/tempo:
+    endpoint: "192.168.100.10:14317" # VVI changed default port
+    tls:
+      insecure: true
 
 service:
   extensions: [health_check]
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug,otlp/tempo]
     metrics:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug,prometheus]
     logs:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug,otlphttp]
+#      exporters: [debug,loki]

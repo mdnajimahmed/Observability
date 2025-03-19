@@ -23,6 +23,26 @@ dependencies {
     // OpenTelemetry Spring Boot starter for auto-instrumentation
     implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
     runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-logback-mdc-1.0', version: '2.14.0-alpha'
+
+
+    // Micrometer Core
+    implementation 'io.micrometer:micrometer-core'
+    // Micrometer Prometheus Registry
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // OpenTelemetry API and SDK
+    implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
+
+    // Use the available version 1.19.0 for the SDK extension resources
+    implementation 'io.opentelemetry:opentelemetry-sdk-extension-resources:1.19.0'
+
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.48.0'
+
+    // OpenTelemetry Micrometer Bridge
+    runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-micrometer-1.5', version: '2.14.0-alpha'
+
+
 }
 
 group = 'com.example'
