@@ -1,0 +1,37 @@
+<!--<configuration>-->
+
+<!--    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level %logger{36} - %msg%n%throwable" />-->
+
+<!--    &lt;!&ndash; Include trace and span IDs in the logs &ndash;&gt;-->
+<!--    <encoder>-->
+<!--        <pattern>${LOG_PATTERN} traceId=%X{otel.trace.id} spanId=%X{otel.span.id}</pattern>-->
+<!--    </encoder>-->
+
+<!--</configuration>-->
+<configuration>
+
+    <!-- Console appender configuration -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} trace_id=%X{trace_id} span_id=%X{span_id} trace_flags=%X{trace_flags} %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- OpenTelemetry appender configuration -->
+    <appender name="OpenTelemetry"
+              class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+        <captureExperimentalAttributes>false</captureExperimentalAttributes>
+        <captureCodeAttributes>true</captureCodeAttributes>
+        <captureMarkerAttribute>true</captureMarkerAttribute>
+        <captureMdcAttributes>*</captureMdcAttributes>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="OpenTelemetry"/>
+    </root>
+
+</configuration>

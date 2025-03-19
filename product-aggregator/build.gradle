@@ -1,29 +1,104 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.3'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+//plugins {
+//    id("java")
+//    id("org.springframework.boot") version "3.2.O"
+//    id("io.spring.dependency-management") version "1.1.0"
+//}
+
+dependencyManagement {
+    imports {
+        mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.14.0")
+    }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // Spring WebFlux dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // OpenTelemetry Spring Boot starter for auto-instrumentation
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+
+    // Optionally, OpenTelemetry API/SDK dependencies
+//    implementation 'io.opentelemetry:opentelemetry-api:1.23.0'
+//    implementation 'io.opentelemetry:opentelemetry-sdk:1.23.0'
+
+//    implementation('io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter') {
+//        exclude group: 'io.opentelemetry', module: 'opentelemetry-api'
+//        exclude group: 'io.opentelemetry', module: 'opentelemetry-sdk'
+//    }
+//
+//    implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
+//    implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
+//
+//    runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-spring-webflux-5.3', version: '2.14.0-alpha'
+    // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
+    runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-logback-mdc-1.0', version: '2.14.0-alpha'
+
+
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+//dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	testImplementation 'io.projectreactor:reactor-test'
+//	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+//	compileOnly 'org.projectlombok:lombok'
+//	annotationProcessor 'org.projectlombok:lombok'
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
+//
+//
+//
+//
+//	implementation("io.micrometer:micrometer-registry-prometheus")
+//	implementation("io.opentelemetry:opentelemetry-api:1.28.0")
+//	implementation("io.opentelemetry:opentelemetry-sdk:1.28.0")
+//	implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.28.0")
+//	implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.28.0")
+//	implementation("io.opentelemetry.javaagent:opentelemetry-javaagent:1.28.0")
+//
+//
+//
+//	implementation 'org.springframework.boot:spring-boot-starter-aop'
+//	implementation 'io.micrometer:micrometer-registry-otlp'
+//	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+//	implementation 'io.zipkin.contrib.otel:encoder-brave:0.1.0'
+//	implementation 'com.github.loki4j:loki-logback-appender:1.5.2'
+//	implementation group: 'com.github.loki4j', name: 'loki-logback-appender', version: '1.6.0'
+//
+//
+//}
+//dependencyManagement {
+//    imports {
+//        mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.14.0")
+//    }
+//}
+//
+
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
