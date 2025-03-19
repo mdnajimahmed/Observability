@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+    path: "/health/status"
+exporters:
+  debug:
+#  otlp:
+#    endpoint: "your-otel-backend:4317"  # Change this to your OTLP-compatible backend (e.g., Jaeger, Tempo, etc.)
+#    tls:
+#      insecure: true
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      exporters: [debug]
