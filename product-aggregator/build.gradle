@@ -47,6 +47,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-otlp'
 
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+
+
+//    runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-spring-webflux-5.3', version: '2.14.0-alpha'
 
 }
 
