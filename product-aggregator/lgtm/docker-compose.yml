@@ -12,6 +12,5 @@ services:
       - "14317:4317"  # Tempo (OTLP)
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
-      - ENABLE_LOGS_PROMETHEUS=true
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml

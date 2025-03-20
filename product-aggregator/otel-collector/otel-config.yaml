@@ -17,6 +17,7 @@ exporters:
     # Add's prefix to each metric name
 #    namespace: "product-aggregator"
 
+  # exports log to loki
   otlphttp:
     endpoint: "http://192.168.100.10:3100/otlp"  # Loki OTLP Ingest API
 
@@ -41,4 +42,3 @@ service:
     logs:
       receivers: [otlp]
       exporters: [debug,otlphttp]
-#      exporters: [debug,loki]

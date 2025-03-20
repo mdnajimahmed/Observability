@@ -44,9 +44,6 @@ dependencies {
     runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-micrometer-1.5', version: '2.14.0-alpha'
 
     // VVI Youtube
-//    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-otlp
-//    implementation group: 'io.micrometer', name: 'micrometer-registry-otlp', version: '1.14.5'
-
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-otlp'
 
@@ -71,16 +68,3 @@ repositories {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-// Optionally, OpenTelemetry API/SDK dependencies
-//    implementation 'io.opentelemetry:opentelemetry-api:1.23.0'
-//    implementation 'io.opentelemetry:opentelemetry-sdk:1.23.0'
-
-//    implementation('io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter') {
-//        exclude group: 'io.opentelemetry', module: 'opentelemetry-api'
-//        exclude group: 'io.opentelemetry', module: 'opentelemetry-sdk'
-//    }
-//
-//    implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
-//    implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
-//
