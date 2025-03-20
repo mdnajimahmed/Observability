@@ -18,7 +18,6 @@ import io.opentelemetry.sdk.trace.export.SpanExporter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 @Configuration
 public class OpenTelemetryConfig {
 
@@ -99,6 +98,8 @@ public class OpenTelemetryConfig {
         // Metrics Setup
         MetricExporter otlpMetricExporter = metricExporter();
         PeriodicMetricReader metricReader = PeriodicMetricReader.builder(otlpMetricExporter).build();
+
+        // Configure the SdkMeterProvider to include resource attributes as metric labels
         SdkMeterProvider meterProvider = SdkMeterProvider.builder()
                 .setResource(resource)
                 .registerMetricReader(metricReader)
@@ -108,7 +109,7 @@ public class OpenTelemetryConfig {
         return OpenTelemetrySdk.builder()
                 .setTracerProvider(tracerProvider)
                 .setLoggerProvider(loggerProvider)
-                .setMeterProvider(meterProvider)  // NEW: Meter Provider
+                .setMeterProvider(meterProvider)
                 .buildAndRegisterGlobal();
     }
 }
