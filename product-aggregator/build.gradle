@@ -37,6 +37,7 @@ dependencies {
     // Use the available version 1.19.0 for the SDK extension resources
     implementation 'io.opentelemetry:opentelemetry-sdk-extension-resources:1.19.0'
 
+    // tracing
     implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.48.0'
 
     // OpenTelemetry Micrometer Bridge

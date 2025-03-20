@@ -5,7 +5,6 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
-
 extensions:
   health_check:
     endpoint: "0.0.0.0:13133"
@@ -15,7 +14,8 @@ exporters:
   # Export metrics to Prometheus
   prometheus:
     endpoint: "0.0.0.0:8889"
-    namespace: "product-aggregator"
+    # Add's prefix to each metric name
+#    namespace: "product-aggregator"
 
   otlphttp:
     endpoint: "http://192.168.100.10:3100/otlp"  # Loki OTLP Ingest API
