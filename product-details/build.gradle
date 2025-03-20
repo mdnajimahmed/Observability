@@ -18,15 +18,48 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+//	runtimeOnly 'org.postgresql:postgresql'
+//	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+//	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// OpenTelemetry Spring Boot starter for auto-instrumentation
+	implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+
+	// Programmatic customization of the telemetry signals orchestration
+	implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
+
+
+	// ################### Tracing ###################
+
+	// OpenTelemetry Micrometer Bridge
+	runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-micrometer-1.5', version: '2.14.0-alpha'
+	implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.48.0'
+
+	// ################### Metrics ###################
+	// Micrometer Core , metrics
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// ################### Logging ###################
+	runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-logback-mdc-1.0', version: '2.14.0-alpha'
 }
+
+// OTEL
+dependencyManagement {
+	imports {
+		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.14.0")
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

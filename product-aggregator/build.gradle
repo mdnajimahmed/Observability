@@ -18,7 +18,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // Spring WebFlux dependencies
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter'
+//    implementation 'org.springframework.boot:spring-boot-starter' // not tested
 
     // OpenTelemetry Spring Boot starter for auto-instrumentation
     implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
@@ -52,12 +52,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
-
-
-//    runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-spring-webflux-5.3', version: '2.14.0-alpha'
-
 }
-
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
