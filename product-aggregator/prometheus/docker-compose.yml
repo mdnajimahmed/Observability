@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"  # Expose Prometheus web UI on port 9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Mount your custom config file
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: unless-stopped

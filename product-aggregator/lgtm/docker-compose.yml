@@ -6,11 +6,12 @@ services:
     container_name: grafana-otel-lgtm
     ports:
       - "3000:3000"  # Grafana
-      - "9090:9090"  # Prometheus
+#      - "9090:9090"  # Prometheus
       - "3100:3100"  # Loki
       - "3200:3200"  # Tempo Query
       - "14317:4317"  # Tempo (OTLP)
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - ENABLE_LOGS_PROMETHEUS=true
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
