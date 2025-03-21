@@ -117,30 +117,4 @@ public class OpenTelemetryConfig {
                 .setMeterProvider(meterProvider)
                 .buildAndRegisterGlobal();
     }
-
-//    @Bean
-//    public WebFilter traceIdHeaderFilter() {
-//        return (ServerWebExchange exchange, WebFilterChain chain) -> {
-//            return ReactiveSecurityContextHolder.getContext()
-//                    .map(SecurityContext::getAuthentication)
-//                    .flatMap(authentication -> {
-//                        if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-//                            String email = jwt.getClaimAsString("email"); // Extract email from JWT
-//
-//                            // Add email to the current span
-//                            Span currentSpan = Span.fromContext(Context.current());
-//                            currentSpan.setAttribute("user.email", email);
-//
-//                            SpanContext spanContext = currentSpan.getSpanContext();
-//                            String traceId = spanContext.getTraceId();
-//                            String spanId = spanContext.getSpanId();
-//
-//                            // Add TraceId and SpanId headers to the response
-//                            exchange.getResponse().getHeaders().add("X-TraceId", traceId);
-//                            exchange.getResponse().getHeaders().add("X-SpanId", spanId);
-//                        }
-//                        return chain.filter(exchange);
-//                    });
-//        };
-//    }
 }

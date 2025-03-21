@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.ServerSecurityContextRepository;
+import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
 
 import org.springframework.core.convert.converter.Converter;
@@ -39,13 +41,13 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(authorize -> authorize
-                        .pathMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()).jwtDecoder(jwtDecoder()))
                 );
+
 
         return http.build();
     }
@@ -60,6 +62,11 @@ public class SecurityConfig {
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(converter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtConverter);
+    }
+
+    @Bean
+    public ServerSecurityContextRepository securityContextRepository() {
+        return new WebSessionServerSecurityContextRepository();
     }
 
 }
