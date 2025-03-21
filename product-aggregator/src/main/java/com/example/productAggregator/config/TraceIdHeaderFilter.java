@@ -23,9 +23,12 @@ public class TraceIdHeaderFilter implements WebFilter {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .switchIfEmpty(Mono.defer(() -> letGo(exchange, chain))) // Handle empty SecurityContext
+                .doOnNext(authentication -> log.info("Authentication: {}", authentication))
+                .doOnError(authenticationException -> log.info("authenticationException ", authenticationException))
                 .filter(authentication -> authentication != null && authentication.getPrincipal() instanceof Jwt)
                 .flatMap(authentication -> {
                     try {
+                        log.info("fetching user email");
                         Jwt jwt = (Jwt) authentication.getPrincipal();
                         String email = jwt.getClaimAsString("email"); // Extract email from JWT
 
