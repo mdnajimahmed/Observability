@@ -29,6 +29,7 @@ exporters:
     tls:
       insecure: true
 
+
 service:
   telemetry:
       logs:

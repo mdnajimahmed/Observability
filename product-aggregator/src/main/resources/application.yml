@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
+  reactor:
+    context-propagation: AUTO
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_6JclRjDSy
+
+otel:
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+  exporter:
+    otlp:
+      protocol: grpc
+      endpoint: http://192.168.100.10:4317
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        histogram-flavor: explicit_bucket_histogram
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,metrics,trace,logfile
+  metrics:
+    enable:
+      service-name-prefix: false
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 10
+      waitDurationInOpenState: 5000ms
+      failureRateThreshold: 50
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+  instances:
+    productDetailsClient:
+      baseConfig: default
+      slidingWindowSize: 20   # Overrides default (was 10)

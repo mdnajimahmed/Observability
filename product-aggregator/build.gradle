@@ -52,6 +52,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
+
+//    VINS
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot3', version: '2.3.0'
+
+    // official doc sample : https://github.com/resilience4j/resilience4j-spring-boot3-demo/blob/master/build.gradle.kts
+
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    //  Optional, only required when you want to use the Decorators class
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-all', version: '2.3.0'
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-reactor', version: '2.3.0'
+
+
+
 }
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'

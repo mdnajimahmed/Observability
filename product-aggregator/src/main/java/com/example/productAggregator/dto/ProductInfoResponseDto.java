@@ -2,15 +2,10 @@ package com.example.productAggregator.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-//@NoArgsConstructor
-//@AllArgsConstructor
+
 @Data
 @AllArgsConstructor(staticName = "create")
-public class ProductDetailsResponseDto {
+public class ProductInfoResponseDto {
     private Long id;
-    ProductInfoResponseDto productDetails;
-
-
 }
