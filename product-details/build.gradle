@@ -47,6 +47,7 @@ dependencies {
 	// ################### Metrics ###################
 	// Micrometer Core , metrics
 	implementation 'io.micrometer:micrometer-core'
+	runtimeOnly 'io.micrometer:micrometer-registry-otlp'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	// ################### Logging ###################
