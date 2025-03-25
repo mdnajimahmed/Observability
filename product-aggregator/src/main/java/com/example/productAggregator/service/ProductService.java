@@ -20,7 +20,8 @@ public class ProductService {
         return productDetailsClient.getProduct(id)
                 .doOnNext(resp-> log.info("Product details received: {}", resp))
                 .map(
-                productInfoResponseDto -> ProductDetailsResponseDto.create(id, productInfoResponseDto)
+                productInfoResponseDto ->
+                        ProductDetailsResponseDto.create(id, productInfoResponseDto)
         );
     }
 }

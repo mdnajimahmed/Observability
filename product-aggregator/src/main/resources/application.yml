@@ -37,7 +37,8 @@ management:
         include: prometheus,health,metrics,trace,logfile
   metrics:
     enable:
-      service-name-prefix: false
+      resilience4j.circuitbreaker: true
+#      service-name-prefix: false
 
 resilience4j.circuitbreaker:
   configs:

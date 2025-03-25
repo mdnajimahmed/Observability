@@ -1,0 +1,52 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
+  reactor:
+    context-propagation: AUTO
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: myuser
+    password: mysecretpassword
+  sql:
+    init:
+      mode: always  # Or 'never' to avoid schema initialization
+
+
+otel:
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+  service:
+    name: ${spring.application.name}
+  exporter:
+    otlp:
+      protocol: grpc
+      endpoint: http://192.168.100.10:4317
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        histogram-flavor: explicit_bucket_histogram
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+  metrics:
+    enable:
+      service-name-prefix: false

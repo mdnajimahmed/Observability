@@ -63,6 +63,8 @@ dependencies {
     implementation group: 'io.github.resilience4j', name: 'resilience4j-all', version: '2.3.0'
     implementation group: 'io.github.resilience4j', name: 'resilience4j-reactor', version: '2.3.0'
 
+// needed to export resilient4j metrics
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-micrometer', version: '2.3.0'
 
 
 }
