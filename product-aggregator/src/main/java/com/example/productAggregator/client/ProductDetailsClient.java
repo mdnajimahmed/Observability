@@ -1,6 +1,6 @@
 package com.example.productAggregator.client;
 
-import com.example.productAggregator.dto.ProductInfoResponseDto;
+import com.example.productAggregator.dto.ProductDetailsDto;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,15 +19,15 @@ public class ProductDetailsClient {
     }
 
     @CircuitBreaker(name = "productDetailsClient", fallbackMethod = "fallbackProductDetails")
-    public Mono<ProductInfoResponseDto> getProduct(Long productId) {
+    public Mono<ProductDetailsDto> getProduct(Long productId) {
         return this.client
                 .get()
                 .uri("/{productId}", productId)
                 .retrieve()
-                .bodyToMono(ProductInfoResponseDto.class);
+                .bodyToMono(ProductDetailsDto.class);
     }
 
-    public Mono<ProductInfoResponseDto> fallbackProductDetails(Long productId, Throwable throwable) {
+    public Mono<ProductDetailsDto> fallbackProductDetails(Long productId, Throwable throwable) {
         log.error("fallbackProductDetails = {} " , productId, throwable);
         return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }

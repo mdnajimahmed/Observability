@@ -55,3 +55,10 @@ resilience4j.circuitbreaker:
     productDetailsClient:
       baseConfig: default
       slidingWindowSize: 20   # Overrides default (was 10)
+grpc:
+  client:
+    review-service:
+      address: 'static://localhost:9090'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext

@@ -1,7 +1,8 @@
 package com.example.productAggregator.controller;
 
-import com.example.productAggregator.dto.ProductDetailsResponseDto;
-import com.example.productAggregator.service.ProductService;
+import com.example.productAggregator.dto.ProductDetailsDto;
+import com.example.productAggregator.dto.ProductInfoResponseDto;
+import com.example.productAggregator.service.ProductAggregatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -15,17 +16,17 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/product")
 @Slf4j
 public class ProductController {
-    private final ProductService productService;
+    private final ProductAggregatorService productAggregatorService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductAggregatorService productAggregatorService) {
+        this.productAggregatorService = productAggregatorService;
     }
 
     @GetMapping("/{id}")
-    public Mono<ProductDetailsResponseDto> getProduct(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+    public Mono<ProductInfoResponseDto> getProduct(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         String email = jwt.getClaimAsString("email");
         log.info("Secure endpoint accessed by: {}", email);
-        return productService.getProduct(id);
+        return productAggregatorService.getProduct(id);
     }
 
 
