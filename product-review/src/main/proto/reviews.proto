@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.productReview.grpc.reviews";
+option java_outer_classname = "ReviewsProto";
+
+service ReviewService {
+  rpc GetReview (ReviewRequest) returns (ReviewResponse);
+  rpc GetAllReviewsByProduct (ProductReviewRequest) returns (ProductReviewResponse);
+  rpc AddReview (AddReviewRequest) returns (ReviewResponse);
+  rpc UpdateReview (UpdateReviewRequest) returns (ReviewResponse);
+  rpc DeleteReview (ReviewRequest) returns (DeleteReviewResponse);
+}
+
+message ReviewRequest {
+  int64 review_id = 1;
+}
+
+message ProductReviewRequest {
+  int64 product_id = 1;
+}
+
+message AddReviewRequest {
+  int64 product_id = 1;
+  int64 user_id = 2;
+  int32 rating = 3;
+  string comment = 4;
+}
+
+message UpdateReviewRequest {
+  int64 review_id = 1;
+  int32 rating = 2;
+  string comment = 3;
+}
+
+message ReviewResponse {
+  int64 review_id = 1;
+  int64 product_id = 2;
+  int64 user_id = 3;
+  int32 rating = 4;
+  string comment = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ProductReviewResponse {
+  repeated ReviewResponse reviews = 1;
+}
+
+message DeleteReviewResponse {
+  bool success = 1;
+  string message = 2;
+}
