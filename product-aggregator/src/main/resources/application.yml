@@ -1,4 +1,8 @@
 spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
   application:
     name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
   reactor:
@@ -58,7 +62,7 @@ resilience4j.circuitbreaker:
 grpc:
   client:
     review-service:
-      address: 'static://localhost:9090'
+      address: 'static://localhost:6565'
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext

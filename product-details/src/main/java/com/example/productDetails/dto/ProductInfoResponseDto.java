@@ -1,5 +1,6 @@
 package com.example.productDetails.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,10 @@ public class ProductInfoResponseDto {
 
     private BigDecimal price;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "GMT")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "GMT")
     private LocalDateTime updatedAt;
 
     private Boolean isActive;
