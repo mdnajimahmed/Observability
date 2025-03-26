@@ -79,7 +79,7 @@ dependencies {
 //    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
     // https://mvnrepository.com/artifact/org.springframework.grpc/spring-grpc-client-spring-boot-starter
     implementation("org.springframework.grpc:spring-grpc-client-spring-boot-starter:0.5.0")
-
+    implementation("io.opentelemetry.instrumentation:opentelemetry-grpc-1.6:2.14.0-alpha")
 }
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'

@@ -7,6 +7,7 @@ import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.propagation.ContextPropagators;
 import io.opentelemetry.context.propagation.TextMapPropagator;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
@@ -17,30 +18,16 @@ import org.springframework.grpc.server.GlobalServerInterceptor;
 
 @Configuration
 public class OpenTelemetryConfig {
-
-//    @Bean
-//    public OpenTelemetry openTelemetry() {
-//        return OpenTelemetrySdk.builder()
-//                .setTracerProvider(SdkTracerProvider.builder()
-//                        .addSpanProcessor(BatchSpanProcessor.builder(OtlpGrpcSpanExporter.builder()
-//                                .setEndpoint("http://localhost:4317")
-//                                .build()).build())
-//                        .build())
-//                .setPropagators(ContextPropagators.create(
-//                        TextMapPropagator.composite(W3CTraceContextPropagator.getInstance())))
-//                .build();
-//    }
-//
-//    @Bean
-//    public Tracer tracer(OpenTelemetry openTelemetry) {
-//        return openTelemetry.getTracer("grpc-tracing");
-//    }
+    @Bean
+    public GrpcTelemetry grpcTelemetry(OpenTelemetry openTelemetry) {
+        return GrpcTelemetry.create(openTelemetry);
+    }
 
     @Bean
     @Order(100)
     @GlobalServerInterceptor
-    ServerInterceptor myGlobalLoggingInterceptor(OpenTelemetry openTelemetry) {
-        return new OpenTelemetryGrpcServerInterceptor(openTelemetry);
+    ServerInterceptor myGlobalLoggingInterceptor(GrpcTelemetry grpcTelemetry) {
+        return grpcTelemetry.newServerInterceptor();
     }
 
 }

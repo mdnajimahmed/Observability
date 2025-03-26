@@ -26,18 +26,4 @@ public class JacksonConfig {
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return objectMapper;
     }
-
-    @Bean
-    @GlobalClientInterceptor
-    public ClientInterceptor grpcTracingInterceptor(OpenTelemetry openTelemetry) {
-        return new OpenTelemetryGrpcClientInterceptor(openTelemetry);
-    }
-
-    @Bean
-    ReviewServiceGrpc.ReviewServiceStub stub(GrpcChannelFactory channels) {
-        return ReviewServiceGrpc.newStub(channels.createChannel("local"));
-    }
-
-
-
 }
