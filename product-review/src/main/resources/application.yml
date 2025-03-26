@@ -1,6 +1,9 @@
+#grpc:
+#  server:
+#    port: 6565
 spring:
   application:
-    name: product-review
+    name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
   grpc:
     server:
       port: 6565
@@ -18,3 +21,40 @@ spring:
     hikari:
       maximum-pool-size: 5
       connection-timeout: 30000
+
+
+otel:
+#  resource:
+#    attributes:
+#      service.instance.id: local01
+#      service.version: gitsha
+#      environment: dev
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+  exporter:
+    otlp:
+      protocol: grpc
+      endpoint: http://192.168.100.10:4317
+
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        histogram-flavor: explicit_bucket_histogram
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,metrics,trace,logfile
+  metrics:
+    enable:
+      resilience4j.circuitbreaker: true

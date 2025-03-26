@@ -32,7 +32,7 @@ dependencies {
 	implementation 'io.grpc:grpc-services'
 	implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
 	// https://mvnrepository.com/artifact/net.devh/grpc-server-spring-boot-starter
-	//	implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
+//		implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -42,11 +42,42 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
+
+	// OTEL
+//	implementation("org.springframework.boot:spring-boot-starter-logging:3.4.4")
+	implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+	// https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-grpc-1.6
+	runtimeOnly("io.opentelemetry.instrumentation:opentelemetry-grpc-1.6:2.14.0-alpha")
+	runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-logback-mdc-1.0', version: '2.14.0-alpha'
+// Micrometer Core
+	implementation 'io.micrometer:micrometer-core'
+
+	// OpenTelemetry API and SDK
+	implementation 'io.opentelemetry:opentelemetry-api:1.48.0'
+	implementation 'io.opentelemetry:opentelemetry-sdk:1.48.0'
+
+	// Use the available version 1.19.0 for the SDK extension resources
+	implementation 'io.opentelemetry:opentelemetry-sdk-extension-resources:1.19.0'
+
+	// tracing
+	implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.48.0'
+
+	// OpenTelemetry Micrometer Bridge
+	runtimeOnly group: 'io.opentelemetry.instrumentation', name: 'opentelemetry-micrometer-1.5', version: '2.14.0-alpha'
+
+	// VVI Youtube
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-otlp'
+
+
+	// https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-context
+	implementation("io.opentelemetry:opentelemetry-context:1.48.0")
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.grpc:spring-grpc-dependencies:${springGrpcVersion}"
+		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.14.0")
 	}
 }
 

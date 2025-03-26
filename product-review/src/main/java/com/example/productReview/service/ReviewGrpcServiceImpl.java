@@ -5,7 +5,11 @@ import com.example.productReview.grpc.reviews.*;
 import com.example.productReview.repository.ReviewRepository;
 import com.example.productReview.service.handler.ReviewService;
 import io.grpc.stub.StreamObserver;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Context;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.grpc.server.service.GrpcService;
+//import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.grpc.server.service.GrpcService;
 
 import java.time.LocalDateTime;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
 @GrpcService
 @Slf4j
 public class ReviewGrpcServiceImpl extends ReviewServiceGrpc.ReviewServiceImplBase{
+    private static final io.grpc.Context.Key<String> TraceContextKey = io.grpc.Context.key("trace-id");
     private final ReviewService reviewService;
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
@@ -24,12 +29,12 @@ public class ReviewGrpcServiceImpl extends ReviewServiceGrpc.ReviewServiceImplBa
     }
 
     @Override
-    public void getReview(ReviewRequest request, StreamObserver<ReviewResponse> responseObserver) {
-        super.getReview(request, responseObserver);
-    }
-
-    @Override
     public void getAllReviewsByProduct(ProductReviewRequest request, StreamObserver<ProductReviewResponse> responseObserver) {
+
+        Span currentSpan = Span.fromContext(Context.current());
+        String traceId = currentSpan.getSpanContext().getTraceId();
+        String spanId = currentSpan.getSpanContext().getSpanId();
+        log.info("getReviewsByProductId traceId: {}, spanId: {}", traceId, spanId);
         List<Review> reviews = reviewService.getReviewsByProductId(request.getProductId());
 
         ProductReviewResponse response = ProductReviewResponse.newBuilder()
@@ -56,20 +61,5 @@ public class ReviewGrpcServiceImpl extends ReviewServiceGrpc.ReviewServiceImplBa
 
     private String toDateTime(LocalDateTime dateTime) {
         return dateTime != null ? dateTime.format(formatter) : "";
-    }
-
-    @Override
-    public void addReview(AddReviewRequest request, StreamObserver<ReviewResponse> responseObserver) {
-        super.addReview(request, responseObserver);
-    }
-
-    @Override
-    public void updateReview(UpdateReviewRequest request, StreamObserver<ReviewResponse> responseObserver) {
-        super.updateReview(request, responseObserver);
-    }
-
-    @Override
-    public void deleteReview(ReviewRequest request, StreamObserver<DeleteReviewResponse> responseObserver) {
-        super.deleteReview(request, responseObserver);
     }
 }

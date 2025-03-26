@@ -69,14 +69,16 @@ dependencies {
 
 
 
-    // gRPC
+    // gRPC client
+    implementation 'io.grpc:grpc-core:1.59.0'
     implementation 'io.grpc:grpc-netty:1.59.0'
     implementation 'io.grpc:grpc-protobuf:1.59.0'
     implementation 'io.grpc:grpc-stub:1.59.0'
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
     // https://mvnrepository.com/artifact/net.devh/grpc-client-spring-boot-starter
-    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
-
+//    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
+    // https://mvnrepository.com/artifact/org.springframework.grpc/spring-grpc-client-spring-boot-starter
+    implementation("org.springframework.grpc:spring-grpc-client-spring-boot-starter:0.5.0")
 
 }
 group = 'com.example'
