@@ -13,7 +13,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_6JclRjDSy
+          issuer-uri: ${JWT_ISSUER_URI:JWT_ISSUER_URI_MISSING}
   traces:
     exporter: otlp
   metrics:
