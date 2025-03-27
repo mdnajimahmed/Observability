@@ -5,10 +5,6 @@ spring:
       channels:
         local:
           address: 0.0.0.0:6565
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-
   application:
     name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
   reactor:
@@ -46,7 +42,6 @@ management:
   metrics:
     enable:
       resilience4j.circuitbreaker: true
-#      service-name-prefix: false
 
 resilience4j.circuitbreaker:
   configs:
@@ -63,11 +58,5 @@ resilience4j.circuitbreaker:
     productDetailsClient:
       baseConfig: default
       slidingWindowSize: 20   # Overrides default (was 10)
-grpc:
-  client:
-    review-service:
-      address: 'static://localhost:6565'
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
+
 
