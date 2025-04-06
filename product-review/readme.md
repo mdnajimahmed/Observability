@@ -5,3 +5,8 @@
 - java 21 or above
 - ./gradlew clean build
 - java -DOTEL_RESOURCE_ATTRIBUTES="service.instance.id=local01,service.version=gitsha,environment=dev" -DOTEL_SERVICE_NAME="product-review"
+
+
+docker-compose build --no-cache
+docker-compose up
+docker network create observability

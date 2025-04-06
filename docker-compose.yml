@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  product-aggregator:
+    build: ./product-aggregator
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-product-aggregator}
+      OTEL_RESOURCE_ATTRIBUTES: service.instance.id=local01,service.version=gitsha,environment=dev
+      OTEL_COLLECTOR_HOST: ${OTEL_COLLECTOR_HOST}
+      JWT_ISSUER_URI: ${JWT_ISSUER_URI}
+      PRODUCT_DETAILS_HOST: product-details
+      PRODUCT_REVIEW_HOST: product-review
+      OTEL_EXPORTER_OTLP_PROTOCOL: 
+
+  product-details:
+    build: ./product-details
+    command: sh -c 'echo $APP_DB_HOST && sleep 3600'
+    ports:
+      - "8081:8081"  
+    restart: unless-stopped
+    environment:
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-product-details}
+      OTEL_RESOURCE_ATTRIBUTES: service.instance.id=local01,service.version=gitsha,environment=dev
+      OTEL_COLLECTOR_HOST: ${OTEL_COLLECTOR_HOST}
+      DB_HOST: ${APP_DB_HOST}
+      DB_USER: ${APP_DB_USER}
+      DB_PASS: ${APP_DB_PASSWORD}
+      DB_NAME: ${APP_DB_NAME}
+
+
+  product-review:
+    build: ./product-review
+    ports:
+      - "6565:6565"  
+    restart: unless-stopped
+    environment:
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-product-review}
+      OTEL_RESOURCE_ATTRIBUTES: service.instance.id=local01,service.version=gitsha,environment=dev
+      OTEL_COLLECTOR_HOST: ${OTEL_COLLECTOR_HOST}
+      DB_HOST: ${APP_DB_HOST}
+      DB_USER: ${APP_DB_USER}
+      DB_PASS: ${APP_DB_PASSWORD}
+      DB_NAME: ${APP_DB_NAME}
+
+
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: ${APP_DB_PASSWORD}
+      POSTGRES_DB: app_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  otel-collector:
+      image: otel/opentelemetry-collector-contrib:latest
+      container_name: otel-collector
+      ports:
+        - "4317:4317"   # OTLP gRPC
+        # - "4318:4318"   # OTLP HTTP
+        - "55679:55679" # zPages
+        - "13133:13133" # Health check
+        - "8889:8889"   # Prometheus metrics
+      volumes:
+        - ./infra/otel-collector/otel-config.yaml:/etc/otel/config.yaml
+      command: ["--config", "/etc/otel/config.yaml"]
+
+  grafana:
+    image: grafana/grafana:11.5.3
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./infra/observability-stack/grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
+
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/observability-stack/prometheus.yml:/etc/prometheus/prometheus.yml  # Mount your custom config file
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--log.level=debug'
+    restart: unless-stopped
+
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+
+
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./infra/observability-stack/tempo-config.yml:/etc/tempo.yaml
+    ports:
+      - "14317:4317"  # OTLP gRPC
+      - "3200:3200"  # Tempo UI
+
+volumes:
+  postgres_data:

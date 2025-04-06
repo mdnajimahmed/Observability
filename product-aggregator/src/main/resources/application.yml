@@ -1,19 +1,4 @@
-
-spring:
-  grpc:
-    client:
-      channels:
-        local:
-          address: 0.0.0.0:6565
-  application:
-    name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
-  reactor:
-    context-propagation: AUTO
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${JWT_ISSUER_URI:JWT_ISSUER_URI_MISSING}
+otel:
   traces:
     exporter: otlp
   metrics:
@@ -23,9 +8,34 @@ spring:
   exporter:
     otlp:
       protocol: grpc
-      endpoint: http://192.168.100.10:4317
+      endpoint: http://${OTEL_COLLECTOR_HOST}:4317
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  grpc:
+    client:
+      channels:
+        local:
+          address: ${PRODUCT_REVIEW_HOST}:6565
+
+  application:
+    name: ${OTEL_SERVICE_NAME:OTEL_SERVICE_NAME_ENV_VARIABLE_MISSING}
+  reactor:
+    context-propagation: AUTO
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:JWT_ISSUER_URI_MISSING}
+
 
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
   otlp:
     metrics:
       export:
@@ -60,3 +70,6 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 20   # Overrides default (was 10)
 
 
+app:
+  egress:
+    product-details-host: http://${PRODUCT_DETAILS_HOST:localhost}:8081
