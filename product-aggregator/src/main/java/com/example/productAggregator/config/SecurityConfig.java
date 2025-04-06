@@ -3,6 +3,7 @@ package com.example.productAggregator.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -39,6 +40,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("secure")
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(authorize -> authorize
@@ -51,6 +53,16 @@ public class SecurityConfig {
                 .addFilterBefore(new PreSecurityFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .addFilterAfter(new PostSecurityFilter(), SecurityWebFiltersOrder.AUTHORIZATION);
 
+
+        return http.build();
+    }
+
+    @Bean
+    @Profile("!secure")
+    public SecurityWebFilterChain securityWebFilterChainX(ServerHttpSecurity http) {
+
+        http.authorizeExchange(authorize -> authorize.anyExchange().permitAll())
+                .addFilterBefore(new PreSecurityFilter(), SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
     }

@@ -24,8 +24,6 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Mono<ProductInfoResponseDto> getProduct(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
-        String email = jwt.getClaimAsString("email");
-        log.info("Secure endpoint accessed by: {}", email);
         return productAggregatorService.getProduct(id);
     }
 

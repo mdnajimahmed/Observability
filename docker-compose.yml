@@ -13,7 +13,7 @@ services:
       JWT_ISSUER_URI: ${JWT_ISSUER_URI}
       PRODUCT_DETAILS_HOST: product-details
       PRODUCT_REVIEW_HOST: product-review
-      OTEL_EXPORTER_OTLP_PROTOCOL: 
+      SPRING_PROFILES_ACTIVE: dev
 
   product-details:
     build: ./product-details
