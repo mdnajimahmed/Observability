@@ -3,8 +3,8 @@ receivers:
     protocols:
       grpc:
         endpoint: 0.0.0.0:4317
-      # http:
-      #   endpoint: 0.0.0.0:4318
+      http:
+        endpoint: 0.0.0.0:4318
 extensions:
   health_check:
     endpoint: "0.0.0.0:13133"
@@ -16,16 +16,18 @@ exporters:
     endpoint: "0.0.0.0:8889"
     resource_to_telemetry_conversion:
       enabled: true
-    # Add's prefix to each metric name
+    # Adds prefix to each metric name
 #    namespace: "product-aggregator"
 
   # exports log to loki
   otlphttp:
-    endpoint: "http://192.168.100.10:3100/otlp"  # Loki OTLP Ingest API
+    # endpoint: "http://192.168.100.10:3100/otlp"  # Loki OTLP Ingest API
+    endpoint: "http://loki:3100/otlp"  # Loki OTLP Ingest API
 
   # Export traces to Tempo
   otlp/tempo:
-    endpoint: "192.168.100.10:14317" # VVI changed default port
+    # endpoint: "192.168.100.10:14317" # VVI changed default port
+    endpoint: "tempo:14317" # VVI changed default port
     tls:
       insecure: true
 

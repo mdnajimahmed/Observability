@@ -40,6 +40,7 @@ management:
       export:
         enabled: true
         histogram-flavor: explicit_bucket_histogram
+        url: http://otel-collector:4317  # gRPC port (4317)
   prometheus:
     metrics:
       export:
