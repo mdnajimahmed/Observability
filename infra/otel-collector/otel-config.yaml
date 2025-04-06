@@ -27,7 +27,7 @@ exporters:
   # Export traces to Tempo
   otlp/tempo:
     # endpoint: "192.168.100.10:14317" # VVI changed default port
-    endpoint: "tempo:14317" # VVI changed default port
+    endpoint: "tempo:4317" # VVI changed default port and to internal one not 14317!!!
     tls:
       insecure: true
 
