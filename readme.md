@@ -14,3 +14,5 @@ product-aggregator uses spring security oauth2 resource server to secure it's pu
 - in the .env file, set JWT_ISSUER_URI
 
 By doing this we will get additional information in the span e.g user.email, which can be used to troubleshoot request specific to user!
+
+A details demo can be found here - https://www.linkedin.com/pulse/building-observable-spring-microservices-tempo-loki-prometheus-ahmed-u1vhc/?trackingId=Er2Igvw4UGuZqyAlzT1wUA%3D%3D
